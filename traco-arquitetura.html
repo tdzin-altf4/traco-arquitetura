@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Traço — Estúdio de Arquitetura</title>
+<style>
+  :root{
+    --concrete:#EDECE8;
+    --concrete-2:#E1DFD8;
+    --graphite:#232320;
+    --graphite-soft:#57564F;
+    --steel:#7C8A87;
+    --ochre:#9C7B3F;
+    --line:#CFCDC3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--concrete);
+    color:var(--graphite);
+    font-family:'Helvetica Neue', Arial, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 40px;}
+  .mono{font-family:'Courier New', Courier, monospace;}
+
+  header{border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--concrete); z-index:50;}
+  .nav{display:flex; justify-content:space-between; align-items:center; padding:24px 40px;}
+  .brand{font-size:19px; font-weight:700; letter-spacing:0.5px;}
+  .brand span{color:var(--ochre);}
+  .nav-links{display:flex; gap:0;}
+  .nav-links a{
+    font-size:12px; letter-spacing:1px; text-transform:uppercase; padding:0 22px;
+    border-left:1px solid var(--line); color:var(--graphite-soft); transition:color .2s;
+  }
+  .nav-links a:hover{color:var(--graphite);}
+  .menu-toggle{display:none; background:none; border:none; font-size:22px;}
+
+  /* Hero: architectural grid */
+  .hero{border-bottom:1px solid var(--line);}
+  .hero-grid{
+    display:grid; grid-template-columns:70px 1fr; min-height:70vh;
+  }
+  .hero-rail{
+    border-right:1px solid var(--line); display:flex; flex-direction:column;
+    justify-content:space-between; padding:30px 0; align-items:center;
+  }
+  .hero-rail .rot{writing-mode:vertical-rl; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--graphite-soft);}
+  .hero-main{padding:70px 50px; display:flex; flex-direction:column; justify-content:center;}
+  .hero-tag{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--ochre); margin-bottom:24px;}
+  h1{
+    font-size:64px; font-weight:700; line-height:1.02; letter-spacing:-1.5px;
+    max-width:760px; margin-bottom:32px;
+  }
+  .hero-main p{max-width:460px; color:var(--graphite-soft); font-size:16.5px; margin-bottom:38px;}
+  .cta-row{display:flex; gap:16px;}
+  .btn{font-size:12px; letter-spacing:1px; text-transform:uppercase; padding:16px 30px; cursor:pointer; transition:all .2s; display:inline-block;}
+  .btn-solid{background:var(--graphite); color:var(--concrete);}
+  .btn-solid:hover{background:var(--ochre);}
+  .btn-line{border:1px solid var(--graphite); color:var(--graphite);}
+  .btn-line:hover{background:var(--graphite); color:var(--concrete);}
+
+  .stat-strip{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--line);}
+  .stat{padding:30px 40px; border-right:1px solid var(--line);}
+  .stat:last-child{border-right:none;}
+  .stat .n{font-size:34px; font-weight:700;}
+  .stat .l{font-size:12px; letter-spacing:0.5px; color:var(--graphite-soft); margin-top:4px;}
+
+  /* Approach */
+  section{padding:90px 0;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:56px; gap:30px; flex-wrap:wrap;}
+  .section-head .tag{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--ochre); margin-bottom:14px;}
+  h2{font-size:36px; font-weight:700; letter-spacing:-0.5px; max-width:520px;}
+  .section-head p{max-width:340px; color:var(--graphite-soft); font-size:15px;}
+
+  .approach-grid{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--graphite);}
+  .a-item{padding:36px 24px 36px 0; border-right:1px solid var(--line);}
+  .a-item:last-child{border-right:none;}
+  .a-item .step{font-family:'Courier New', monospace; font-size:12px; color:var(--ochre); margin-bottom:18px;}
+  .a-item h3{font-size:18px; font-weight:700; margin-bottom:10px;}
+  .a-item p{font-size:14px; color:var(--graphite-soft);}
+
+  /* Projects */
+  .projects{background:var(--concrete-2); border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line);}
+  .proj-card{background:var(--concrete-2); padding:0;}
+  .proj-visual{aspect-ratio:4/3; position:relative; overflow:hidden;}
+  .proj-visual img{width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(15%);}
+  .proj-info{padding:26px 30px 34px;}
+  .proj-info .p-tag{font-family:'Courier New', monospace; font-size:11px; color:var(--ochre); margin-bottom:8px;}
+  .proj-info h3{font-size:21px; font-weight:700; margin-bottom:6px;}
+  .proj-info p{font-size:13.5px; color:var(--graphite-soft);}
+
+  /* Philosophy band */
+  .band{padding:110px 0; text-align:left;}
+  .band .wrap{display:grid; grid-template-columns:1fr 1.3fr; gap:50px;}
+  .band .tag{font-size:12px; letter-spacing:2px; text-transform:uppercase; color:var(--ochre); margin-bottom:20px;}
+  .band blockquote{font-size:30px; font-weight:700; line-height:1.35; letter-spacing:-0.5px;}
+  .band cite{display:block; margin-top:22px; font-style:normal; font-size:13px; color:var(--graphite-soft);}
+
+  /* Process timeline */
+  .process{border-top:1px solid var(--line);}
+  .proc-row{display:grid; grid-template-columns:110px 200px 1fr; gap:30px; padding:28px 0; border-bottom:1px solid var(--line); align-items:baseline;}
+  .proc-row .p-num{font-family:'Courier New', monospace; font-size:13px; color:var(--ochre);}
+  .proc-row h4{font-size:18px; font-weight:700;}
+  .proc-row p{font-size:14px; color:var(--graphite-soft); max-width:520px;}
+
+  /* Contact */
+  .contact{background:var(--graphite); color:var(--concrete);}
+  .contact .wrap{display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;}
+  .contact h2{color:var(--concrete); font-size:38px; max-width:none;}
+  .contact p{color:#B9B7AE; font-size:15px; margin:18px 0 30px; max-width:400px;}
+  .contact .btn-solid{background:var(--concrete); color:var(--graphite);}
+  .contact .btn-solid:hover{background:var(--ochre); color:var(--concrete);}
+  .contact-info{font-size:14px; color:#B9B7AE;}
+  .contact-info div{padding:14px 0; border-bottom:1px solid #3E3D38;}
+  .contact-info span{display:block; font-size:11px; letter-spacing:1px; text-transform:uppercase; color:#7A7972; margin-bottom:5px;}
+
+  footer{padding:30px 0; }
+  .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--graphite-soft);}
+
+  @media(max-width:900px){
+    .nav-links{display:none;}
+    .menu-toggle{display:block;}
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-rail{display:none;}
+    h1{font-size:38px;}
+    .stat-strip{grid-template-columns:1fr 1fr;}
+    .stat:nth-child(2){border-right:none;}
+    .approach-grid{grid-template-columns:1fr 1fr;}
+    .proj-grid{grid-template-columns:1fr;}
+    .band .wrap{grid-template-columns:1fr;}
+    .proc-row{grid-template-columns:60px 1fr; }
+    .proc-row h4{grid-column:2;}
+    .proc-row p{grid-column:2;}
+    .contact .wrap{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">TRAÇO<span>.</span></div>
+    <nav class="nav-links">
+      <a href="#metodo">Método</a>
+      <a href="#projetos">Projetos</a>
+      <a href="#processo">Processo</a>
+      <a href="#contato">Contato</a>
+    </nav>
+    <button class="menu-toggle" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div class="hero-rail">
+      <span class="rot mono">TRAÇO ESTÚDIO — SP</span>
+      <span class="rot mono">EST. 2014</span>
+    </div>
+    <div class="hero-main">
+      <div class="hero-tag">Arquitetura residencial & comercial</div>
+      <h1>Projetamos o espaço<br>a partir da luz que ele recebe.</h1>
+      <p>Um estúdio de oito arquitetos dedicado a projetos autorais, do estudo de viabilidade à obra concluída — sem terceirizar a coordenação.</p>
+      <div class="cta-row">
+        <a href="#projetos" class="btn btn-solid">Ver projetos</a>
+        <a href="#contato" class="btn btn-line">Solicitar orçamento</a>
+      </div>
+    </div>
+  </div>
+  <div class="stat-strip">
+    <div class="stat"><div class="n">120+</div><div class="l">Projetos entregues</div></div>
+    <div class="stat"><div class="n">12</div><div class="l">Anos de estúdio</div></div>
+    <div class="stat"><div class="n">8</div><div class="l">Arquitetos na equipe</div></div>
+    <div class="stat"><div class="n">4</div><div class="l">Prêmios setoriais</div></div>
+  </div>
+</section>
+
+<section id="metodo" class="wrap">
+  <div class="section-head">
+    <div>
+      <div class="tag">Como trabalhamos</div>
+      <h2>Do estudo de luz ao último detalhe de acabamento</h2>
+    </div>
+    <p>Cada projeto passa pelas mesmas quatro etapas — sem pular o estudo de insolação, mesmo sob prazo apertado.</p>
+  </div>
+  <div class="approach-grid">
+    <div class="a-item">
+      <div class="step">01</div>
+      <h3>Leitura do terreno</h3>
+      <p>Topografia, orientação solar e ventos predominantes definem a implantação antes de qualquer desenho.</p>
+    </div>
+    <div class="a-item">
+      <div class="step">02</div>
+      <h3>Estudo volumétrico</h3>
+      <p>Massas testadas em maquete física e digital, avaliando luz natural em cada ambiente por estação do ano.</p>
+    </div>
+    <div class="a-item">
+      <div class="step">03</div>
+      <h3>Projeto executivo</h3>
+      <p>Detalhamento técnico completo, compatibilizado com estrutura, elétrica e hidráulica antes da obra iniciar.</p>
+    </div>
+    <div class="a-item">
+      <div class="step">04</div>
+      <h3>Acompanhamento de obra</h3>
+      <p>Visitas semanais até a entrega, com o mesmo arquiteto que assinou o projeto do início ao fim.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projetos" class="projects">
+  <div class="wrap" style="padding-top:90px;">
+    <div class="section-head">
+      <div>
+        <div class="tag">Trabalhos recentes</div>
+        <h2>Projetos selecionados</h2>
+      </div>
+      <p>Uma amostra dos últimos três anos de estúdio, entre residências e espaços comerciais.</p>
+    </div>
+  </div>
+  <div class="proj-grid">
+    <div class="proj-card">
+      <div class="proj-visual">
+        <img src="https://images.unsplash.com/photo-1531971589569-0d9370cbe1e5?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Casa moderna com jardim e iluminação noturna">
+      </div>
+      <div class="proj-info">
+        <div class="p-tag">RESIDENCIAL · 2025</div>
+        <h3>Casa Jardins</h3>
+        <p>340m² · Reforma completa com abertura total do pavimento térreo para o jardim.</p>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-visual">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Edifício de concreto com fachada moderna">
+      </div>
+      <div class="proj-info">
+        <div class="p-tag">COMERCIAL · 2024</div>
+        <h3>Edifício Aurora</h3>
+        <p>1.200m² · Fachada em brise de madeira e concreto aparente, seis pavimentos.</p>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-visual">
+        <img src="https://images.unsplash.com/photo-1628745277862-bc0b2d68c50c?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Cozinha moderna com bancada clara">
+      </div>
+      <div class="proj-info">
+        <div class="p-tag">RESIDENCIAL · 2024</div>
+        <h3>Casa Pátio</h3>
+        <p>280m² · Organização em torno de um pátio central, iluminando todos os cômodos.</p>
+      </div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-visual">
+        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Edifício de concreto branco com linhas retas">
+      </div>
+      <div class="proj-info">
+        <div class="p-tag">COMERCIAL · 2023</div>
+        <h3>Ateliê Norte</h3>
+        <p>210m² · Retrofit de galpão industrial convertido em estúdio criativo compartilhado.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap">
+    <div>
+      <div class="tag">Princípio</div>
+    </div>
+    <div>
+      <blockquote>"Um bom projeto não se percebe pela ornamentação. Percebe-se pela ausência de tudo que não precisava estar ali."</blockquote>
+      <cite>— Diego Amaral, sócio-fundador</cite>
+    </div>
+  </div>
+</div>
+
+<section id="processo" class="wrap process">
+  <div class="section-head">
+    <div>
+      <div class="tag">Prazos médios</div>
+      <h2>Da primeira reunião à entrega das chaves</h2>
+    </div>
+  </div>
+  <div class="proc-row">
+    <div class="p-num mono">01</div>
+    <h4>Briefing e viabilidade</h4>
+    <p>2 a 3 semanas — levantamento do terreno, orçamento e programa de necessidades.</p>
+  </div>
+  <div class="proc-row">
+    <div class="p-num mono">02</div>
+    <h4>Estudo preliminar</h4>
+    <p>4 a 6 semanas — volumetria, plantas e primeira apresentação com maquete.</p>
+  </div>
+  <div class="proc-row">
+    <div class="p-num mono">03</div>
+    <h4>Projeto executivo</h4>
+    <p>6 a 10 semanas — detalhamento técnico e aprovação em prefeitura.</p>
+  </div>
+  <div class="proc-row">
+    <div class="p-num mono">04</div>
+    <h4>Obra</h4>
+    <p>Variável por escopo — acompanhamento semanal até a entrega final.</p>
+  </div>
+</section>
+
+<section id="contato" class="contact">
+  <div class="wrap">
+    <div>
+      <h2>Tem um terreno ou um espaço em mente?</h2>
+      <p>Conte um pouco sobre o projeto e agendamos uma primeira conversa, sem custo, para avaliar a viabilidade.</p>
+      <a href="mailto:projetos@tracoestudio.com.br" class="btn btn-solid">Solicitar orçamento</a>
+    </div>
+    <div class="contact-info">
+      <div><span>Endereço</span>Rua Girassol, 128 — São Paulo, SP</div>
+      <div><span>E-mail</span>projetos@tracoestudio.com.br</div>
+      <div><span>Telefone</span>(11) 4002-8922</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© 2026 Traço Estúdio de Arquitetura</div>
+    <div>CAU A12345-6</div>
+  </div>
+</footer>
+
+</body>
+</html>
