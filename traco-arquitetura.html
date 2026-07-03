@@ -40,9 +40,40 @@
   .menu-toggle{display:none; background:none; border:none; font-size:22px;}
 
   /* Hero: architectural grid */
-  .hero{border-bottom:1px solid var(--line);}
+  .hero{border-bottom:1px solid var(--line); position:relative;}
   .hero-grid{
     display:grid; grid-template-columns:70px 1fr; min-height:70vh;
+  }
+
+  /* Cubo isométrico girando conforme a rolagem — estudo volumétrico */
+  .cube-stage{
+    position:absolute; top:40px; right:7%; width:130px; height:130px;
+    perspective:700px; z-index:2;
+  }
+  .cube{ width:100%; height:100%; position:relative; transform-style:preserve-3d; will-change:transform; }
+  .cube .face{ position:absolute; width:90px; height:90px; left:20px; top:20px; }
+  .face-top{ background:var(--concrete-2); border:1px solid var(--graphite); transform:rotateX(90deg) translateZ(45px); }
+  .face-front{ background:var(--ochre); opacity:.85; transform:translateZ(45px); }
+  .face-side{ background:var(--graphite); opacity:.75; transform:rotateY(90deg) translateZ(45px); }
+
+  /* Reveal suave ao rolar (sem blur) */
+  .reveal{
+    opacity:0; transform:translateY(26px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    .cube{ transform:none !important; }
+    .reveal{ opacity:1 !important; transform:none !important; transition:none; }
+  }
+
+  @media(max-width:900px){
+    .cube-stage{ width:90px; height:90px; top:20px; right:5%; }
+    .cube .face{ width:60px; height:60px; left:15px; top:15px; }
+    .face-top{ transform:rotateX(90deg) translateZ(30px); }
+    .face-front{ transform:translateZ(30px); }
+    .face-side{ transform:rotateY(90deg) translateZ(30px); }
   }
   .hero-rail{
     border-right:1px solid var(--line); display:flex; flex-direction:column;
@@ -162,6 +193,13 @@
 </header>
 
 <section class="hero">
+  <div class="cube-stage">
+    <div class="cube" id="isoCube">
+      <div class="face face-top"></div>
+      <div class="face face-front"></div>
+      <div class="face face-side"></div>
+    </div>
+  </div>
   <div class="hero-grid">
     <div class="hero-rail">
       <span class="rot mono">TRAÇO ESTÚDIO — SP</span>
@@ -186,7 +224,7 @@
 </section>
 
 <section id="metodo" class="wrap">
-  <div class="section-head">
+  <div class="section-head reveal">
     <div>
       <div class="tag">Como trabalhamos</div>
       <h2>Do estudo de luz ao último detalhe de acabamento</h2>
@@ -194,22 +232,22 @@
     <p>Cada projeto passa pelas mesmas quatro etapas — sem pular o estudo de insolação, mesmo sob prazo apertado.</p>
   </div>
   <div class="approach-grid">
-    <div class="a-item">
+    <div class="a-item reveal">
       <div class="step">01</div>
       <h3>Leitura do terreno</h3>
       <p>Topografia, orientação solar e ventos predominantes definem a implantação antes de qualquer desenho.</p>
     </div>
-    <div class="a-item">
+    <div class="a-item reveal" style="transition-delay:.06s">
       <div class="step">02</div>
       <h3>Estudo volumétrico</h3>
       <p>Massas testadas em maquete física e digital, avaliando luz natural em cada ambiente por estação do ano.</p>
     </div>
-    <div class="a-item">
+    <div class="a-item reveal" style="transition-delay:.12s">
       <div class="step">03</div>
       <h3>Projeto executivo</h3>
       <p>Detalhamento técnico completo, compatibilizado com estrutura, elétrica e hidráulica antes da obra iniciar.</p>
     </div>
-    <div class="a-item">
+    <div class="a-item reveal" style="transition-delay:.18s">
       <div class="step">04</div>
       <h3>Acompanhamento de obra</h3>
       <p>Visitas semanais até a entrega, com o mesmo arquiteto que assinou o projeto do início ao fim.</p>
@@ -228,7 +266,7 @@
     </div>
   </div>
   <div class="proj-grid">
-    <div class="proj-card">
+    <div class="proj-card reveal">
       <div class="proj-visual">
         <img src="https://images.unsplash.com/photo-1531971589569-0d9370cbe1e5?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Casa moderna com jardim e iluminação noturna">
       </div>
@@ -238,7 +276,7 @@
         <p>340m² · Reforma completa com abertura total do pavimento térreo para o jardim.</p>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card reveal" style="transition-delay:.08s">
       <div class="proj-visual">
         <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Edifício de concreto com fachada moderna">
       </div>
@@ -248,7 +286,7 @@
         <p>1.200m² · Fachada em brise de madeira e concreto aparente, seis pavimentos.</p>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card reveal">
       <div class="proj-visual">
         <img src="https://images.unsplash.com/photo-1628745277862-bc0b2d68c50c?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Cozinha moderna com bancada clara">
       </div>
@@ -258,7 +296,7 @@
         <p>280m² · Organização em torno de um pátio central, iluminando todos os cômodos.</p>
       </div>
     </div>
-    <div class="proj-card">
+    <div class="proj-card reveal" style="transition-delay:.08s">
       <div class="proj-visual">
         <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?fm=jpg&q=80&w=800&auto=format&fit=crop" alt="Edifício de concreto branco com linhas retas">
       </div>
@@ -277,7 +315,7 @@
       <div class="tag">Princípio</div>
     </div>
     <div>
-      <blockquote>"Um bom projeto não se percebe pela ornamentação. Percebe-se pela ausência de tudo que não precisava estar ali."</blockquote>
+      <blockquote class="reveal">"Um bom projeto não se percebe pela ornamentação. Percebe-se pela ausência de tudo que não precisava estar ali."</blockquote>
       <cite>— Diego Amaral, sócio-fundador</cite>
     </div>
   </div>
@@ -341,6 +379,36 @@
   navLinks.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => navLinks.classList.remove('open'));
   });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!reduceMotion) {
+    // Cubo isométrico gira em 3D conforme a rolagem, como um estudo volumétrico
+    const isoCube = document.getElementById('isoCube');
+    function onScroll() {
+      if (isoCube) {
+        isoCube.style.transform = `rotateX(-20deg) rotateY(${window.scrollY * 0.35}deg)`;
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Elementos aparecem suavemente ao entrar na tela
+  const revealTargets = document.querySelectorAll('.reveal');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    revealTargets.forEach(el => el.classList.add('in-view'));
+  } else {
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    revealTargets.forEach(el => revealObserver.observe(el));
+  }
 </script>
 
 </body>
