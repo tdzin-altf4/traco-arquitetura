@@ -123,7 +123,13 @@
   .foot-row{display:flex; justify-content:space-between; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--graphite-soft);}
 
   @media(max-width:900px){
-    .nav-links{display:none;}
+    .nav-links{
+      display:none; position:fixed; top:65px; left:0; right:0; z-index:60;
+      flex-direction:column; align-items:center; gap:20px;
+      background:var(--concrete); border-bottom:1px solid var(--line); padding:26px 0;
+    }
+    .nav-links.open{display:flex;}
+    .nav-links a{border-left:none;}
     .menu-toggle{display:block;}
     .hero-grid{grid-template-columns:1fr;}
     .hero-rail{display:none;}
@@ -145,13 +151,13 @@
 <header>
   <div class="nav">
     <div class="brand">TRAÇO<span>.</span></div>
-    <nav class="nav-links">
+    <nav class="nav-links" id="navLinks">
       <a href="#metodo">Método</a>
       <a href="#projetos">Projetos</a>
       <a href="#processo">Processo</a>
       <a href="#contato">Contato</a>
     </nav>
-    <button class="menu-toggle" aria-label="Menu">☰</button>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
   </div>
 </header>
 
@@ -327,6 +333,15 @@
     <div>CAU A12345-6</div>
   </div>
 </footer>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  menuToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+</script>
 
 </body>
 </html>
